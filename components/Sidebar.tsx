@@ -3,21 +3,14 @@
 import { motion } from "framer-motion";
 import {
   X,
-  Cpu,
   Menu,
-  Wifi,
   Wind,
   Plane,
   Radar,
   Cloud,
-  Signal,
   Activity,
-  Database,
-  BarChart3,
   Satellite,
   CloudRain,
-  TrendingUp,
-  Thermometer,
   ChevronRight,
   PlaneTakeoff,
 } from "lucide-react";
@@ -63,63 +56,18 @@ export default function Sidebar({
         ]
       : [
           {
-            label: "Historical Data",
-            icon: TrendingUp,
-            description: "Past flight patterns analysis",
-          },
-          {
-            label: "Analysis Charts",
-            icon: BarChart3,
-            description: "Detailed data insights",
-          },
-          {
-            label: "Weather Trends",
+            label: "Prediksi Cuaca Bengkulu",
             icon: CloudRain,
-            description: "Meteorological patterns",
+            description: "Hujan",
           },
           {
-            label: "Performance Metrics",
-            icon: Thermometer,
-            description: "System performance analysis",
+            label: "Prediksi Cuaca Bandara",
+            icon: CloudRain,
+            description: "Hujan",
           },
         ];
 
   const legendItems = [
-    {
-      icon: Signal,
-      label: "Strong Signal",
-      description: "Excellent radar connection",
-      color: "green",
-      status: "active",
-    },
-    {
-      icon: Database,
-      label: "Data Synced",
-      description: "All systems synchronized",
-      color: "blue",
-      status: "active",
-    },
-    {
-      icon: Cpu,
-      label: "Optimal Load",
-      description: "System running at 34% capacity",
-      color: "yellow",
-      status: "active",
-    },
-    {
-      icon: Wifi,
-      label: "Network Stable",
-      description: "No connectivity issues",
-      color: "green",
-      status: "active",
-    },
-    {
-      icon: Satellite,
-      label: "GPS Active",
-      description: "24 satellites connected",
-      color: "blue",
-      status: "active",
-    },
     {
       icon: Wind,
       label: "Weather Data",
