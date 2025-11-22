@@ -3,10 +3,7 @@
 import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
 import { MapContainer, TileLayer } from "react-leaflet";
-
-interface MapProps {
-  darkMode: boolean;
-}
+import { MapProps } from "@/interfaces/map-props.interface";
 
 const position: LatLngExpression = [-3.8, 102.265];
 

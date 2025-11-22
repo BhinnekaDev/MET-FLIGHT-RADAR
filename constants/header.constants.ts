@@ -1,7 +1,7 @@
 import { ModeButton } from "@/types/header.types";
 
 export const MODE_BUTTONS: ModeButton[] = [
-  { key: "monitoring", label: "Monitor" },
+  { key: "monitoring", label: "Monitoring" },
   { key: "analysis", label: "Analisis" },
 ];
 
