@@ -1,8 +1,8 @@
 import {
+  Wind,
   Plane,
   Radar,
   Cloud,
-  Wind,
   EyeIcon,
   WindIcon,
   Activity,

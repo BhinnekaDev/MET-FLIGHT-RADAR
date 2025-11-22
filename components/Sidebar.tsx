@@ -9,6 +9,7 @@ import {
 } from "@/constants/sidebar.constants";
 import { motion } from "framer-motion";
 import { useSidebar } from "@/hooks/useSidebar";
+import { memo, useMemo, useCallback } from "react";
 import { SidebarProps } from "@/types/sidebar.types";
 import SidebarHeader from "@/components/sidebar/SidebarHeader";
 import MenuItemsList from "@/components/sidebar/MenuItemsList";
@@ -18,7 +19,7 @@ import MobileMenuButton from "@/components/sidebar/MobileMenuButton";
 import QuickActionsGrid from "@/components/sidebar/QuickActionsGrid";
 import AnimatedBackground from "@/components/sidebar/AnimatedBackground";
 
-export default function Sidebar({
+function Sidebar({
   mode = "monitoring",
   darkMode = false,
   onPlaneClick,
@@ -31,16 +32,30 @@ export default function Sidebar({
     closeMobileMenu,
   } = useSidebar();
 
-  const menuItems =
-    mode === "monitoring" ? MONITORING_MENU_ITEMS : ANALYSIS_MENU_ITEMS;
-  const styles = darkMode ? SIDEBAR_STYLES.dark : SIDEBAR_STYLES.light;
+  const { styles, menuItems } = useMemo(
+    () => ({
+      styles: darkMode ? SIDEBAR_STYLES.dark : SIDEBAR_STYLES.light,
+      menuItems:
+        mode === "monitoring" ? MONITORING_MENU_ITEMS : ANALYSIS_MENU_ITEMS,
+    }),
+    [darkMode, mode]
+  );
 
-  const handleActionClickWithCallback = (actionId: string) => {
-    handleActionClick(actionId);
-    if (actionId === "pesawat" && onPlaneClick) {
-      onPlaneClick();
-    }
-  };
+  const handleActionClickWithCallback = useCallback(
+    (actionId: string) => {
+      handleActionClick(actionId);
+      if (actionId === "pesawat" && onPlaneClick) {
+        onPlaneClick();
+      }
+    },
+    [handleActionClick, onPlaneClick]
+  );
+
+  const sidebarClasses = `fixed lg:relative h-full z-40 transition-transform duration-300 ${
+    isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+  } w-80 max-w-[85vw] sm:max-w-[90vw] ${styles.background} ${
+    styles.border
+  } backdrop-blur-xl shadow-2xl`;
 
   return (
     <>
@@ -56,11 +71,7 @@ export default function Sidebar({
         key={mode}
         initial="hidden"
         animate="visible"
-        className={`fixed lg:relative h-full z-40 transition-transform duration-300 ${
-          isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-        } w-80 max-w-[85vw] sm:max-w-[90vw] ${styles.background} ${
-          styles.border
-        } backdrop-blur-xl shadow-2xl`}
+        className={sidebarClasses}
       >
         <AnimatedBackground darkMode={darkMode} />
 
@@ -121,13 +132,13 @@ function MobileFooter({ darkMode }: { darkMode: boolean }) {
 }
 
 function SidebarBorder({ darkMode }: { darkMode: boolean }) {
+  const borderClass = darkMode
+    ? "bg-linear-to-b from-cyan-500/40 via-cyan-500/20 to-transparent"
+    : "bg-linear-to-b from-cyan-400/30 via-cyan-400/15 to-transparent";
+
   return (
-    <div
-      className={`absolute right-0 top-0 bottom-0 w-px ${
-        darkMode
-          ? "bg-linear-to-b from-cyan-500/40 via-cyan-500/20 to-transparent"
-          : "bg-linear-to-b from-cyan-400/30 via-cyan-400/15 to-transparent"
-      }`}
-    />
+    <div className={`absolute right-0 top-0 bottom-0 w-px ${borderClass}`} />
   );
 }
+
+export default memo(Sidebar);

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, useMemo } from "react";
 import {
   SIDEBAR_ANIMATION,
   SIDEBAR_STYLES,
@@ -7,26 +8,34 @@ import {
 import { motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { MenuItemsListProps } from "@/types/sidebar.types";
-import { MenuItemProps } from "@/interfaces/menuItem-props.interface";
 
-export default function MenuItemsList({
+function MenuItemsList({
   mode,
   darkMode,
   menuItems,
   onItemClick,
 }: MenuItemsListProps) {
-  const styles = darkMode ? SIDEBAR_STYLES.dark : SIDEBAR_STYLES.light;
+  const styles = useMemo(
+    () => (darkMode ? SIDEBAR_STYLES.dark : SIDEBAR_STYLES.light),
+    [darkMode]
+  );
+
+  const title = mode === "monitoring" ? "Status Monitoring" : "Status Analisis";
 
   return (
-    <motion.div initial="hidden" animate="visible" className="p-4 space-y-3">
+    <motion.div
+      initial="hidden"
+      animate="visible"
+      className="p-3 sm:p-4 space-y-2 sm:space-y-3"
+    >
       <h3
-        className={`text-sm font-semibold uppercase tracking-wider ${styles.text.tertiary}`}
+        className={`text-xs sm:text-sm font-semibold uppercase tracking-wider ${styles.text.tertiary}`}
       >
-        {mode === "monitoring" ? "Status Monitoring" : "Status Analisis"}
+        {title}
       </h3>
       {menuItems.map((item, idx) => (
         <MenuItem
-          key={idx}
+          key={`${item.label}-${idx}`}
           item={item}
           mode={mode}
           darkMode={darkMode}
@@ -38,27 +47,48 @@ export default function MenuItemsList({
   );
 }
 
-function MenuItem({ item, mode, darkMode, onItemClick }: MenuItemProps) {
+function MenuItem({
+  item,
+  mode,
+  darkMode,
+  onItemClick,
+  index,
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  item: any;
+  mode: string;
+  darkMode: boolean;
+  onItemClick: () => void;
+  index: number;
+}) {
   const styles = darkMode ? SIDEBAR_STYLES.dark : SIDEBAR_STYLES.light;
-  const iconStyle =
-    mode === "monitoring" ? styles.icon.monitoring : styles.icon.analysis;
-  const textColor =
-    mode === "monitoring" ? styles.text.accent : styles.text.accent;
+
+  const { iconStyle, textColor, gradientClass } = useMemo(
+    () => ({
+      iconStyle:
+        mode === "monitoring" ? styles.icon.monitoring : styles.icon.analysis,
+      textColor: styles.text.accent,
+      gradientClass:
+        mode === "monitoring"
+          ? "bg-linear-to-r from-cyan-500 to-blue-600"
+          : "bg-linear-to-r from-purple-500 to-pink-600",
+    }),
+    [mode, styles]
+  );
+
+  const menuItemClass = `group relative overflow-hidden rounded-xl p-3 sm:p-4 transition-all duration-300 w-full text-left ${styles.menuItem.background} ${styles.menuItem.border} ${styles.menuItem.hover}`;
 
   return (
     <motion.button
       variants={SIDEBAR_ANIMATION.itemVariants}
-      whileHover={{ scale: 1.02, x: 5 }}
-      whileTap={{ scale: 0.98 }}
+      custom={index}
+      whileHover={{ scale: 1.01, x: 3 }}
+      whileTap={{ scale: 0.99 }}
       onClick={onItemClick}
-      className={`group relative overflow-hidden rounded-xl p-4 transition-all duration-300 w-full text-left ${styles.menuItem.background} ${styles.menuItem.border} ${styles.menuItem.hover}`}
+      className={menuItemClass}
     >
       <div
-        className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity ${
-          mode === "monitoring"
-            ? "bg-linear-to-r from-cyan-500 to-blue-600"
-            : "bg-linear-to-r from-purple-500 to-pink-600"
-        }`}
+        className={`absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity ${gradientClass}`}
       />
 
       <div className="relative z-10 flex items-center justify-between">
@@ -69,7 +99,7 @@ function MenuItem({ item, mode, darkMode, onItemClick }: MenuItemProps) {
             </p>
             {item.badge && (
               <span
-                className={`px-2 py-1 rounded-full text-xs font-bold ${
+                className={`px-1.5 py-0.5 rounded-full text-xs font-bold ${
                   darkMode
                     ? "bg-cyan-500/20 text-cyan-400"
                     : "bg-cyan-400/20 text-cyan-600"
@@ -85,24 +115,26 @@ function MenuItem({ item, mode, darkMode, onItemClick }: MenuItemProps) {
         </div>
 
         <motion.div
-          className={`p-2 rounded-lg ${iconStyle}`}
-          whileHover={{ rotate: 360 }}
-          transition={{ duration: 0.6 }}
+          className={`p-1.5 sm:p-2 rounded-lg ${iconStyle}`}
+          whileHover={{ rotate: 180 }}
+          transition={{ duration: 0.4 }}
         >
-          <item.icon size={18} />
+          <item.icon size={16} className="sm:size-4" />
         </motion.div>
       </div>
 
       <motion.div
-        className={`absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 ${
+        className={`absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 ${
           mode === "monitoring" ? "text-cyan-400" : "text-purple-400"
         }`}
-        initial={{ x: -10 }}
+        initial={{ x: -5 }}
         whileHover={{ x: 0 }}
-        transition={{ duration: 0.2 }}
+        transition={{ duration: 0.15 }}
       >
-        <ChevronRight size={18} />
+        <ChevronRight size={14} className="sm:size-4" />
       </motion.div>
     </motion.button>
   );
 }
+
+export default memo(MenuItemsList);
