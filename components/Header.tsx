@@ -55,14 +55,14 @@ export default function Header({
 
         <div className="hidden md:flex items-center gap-3 lg:gap-4">
           <ModeSwitch
-            darkMode={darkMode}
             mode={mode}
+            darkMode={darkMode}
             onModeChange={handleModeChange}
           />
           <ThemeToggle
+            size="md"
             darkMode={darkMode}
             onToggle={handleDarkMode}
-            size="md"
           />
         </div>
 

@@ -3,8 +3,8 @@ import { HEADER_STYLES } from "@/constants/header.constants";
 import { ModeSwitchProps } from "@/interfaces/mode-switch-props";
 
 export function ModeSwitch({
-  darkMode,
   mode,
+  darkMode,
   onModeChange,
   isMobile = false,
 }: ModeSwitchProps) {
