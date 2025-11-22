@@ -49,30 +49,40 @@ export default function MainPanel({
           initial={{ opacity: 0, y: -20 }}
           animate={isLoaded ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.2 }}
-          className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3"
+          className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-2 gap-2 sm:gap-3"
         >
-          {[
-            {
-              label: "Active Flights",
-              value: activeFlights,
-              icon: MapPin,
-              color: "cyan",
-            },
-            {
-              label: "Avg Altitude",
-              value: "38,450",
-              unit: "ft",
-              icon: TrendingUp,
-              color: "purple",
-            },
-            {
-              label: "Coverage",
-              value: "99.8",
-              unit: "%",
-              icon: Radio,
-              color: "pink",
-            },
-          ].map((stat, idx) => (
+          {(mode === "monitoring"
+            ? [
+                {
+                  label: "Pesawat Aktif",
+                  value: activeFlights,
+                  icon: MapPin,
+                  color: "cyan",
+                },
+                {
+                  label: "Rata - Rata Ketinggian Pesawat",
+                  value: "38,450",
+                  unit: "ft",
+                  icon: TrendingUp,
+                  color: "purple",
+                },
+              ]
+            : [
+                {
+                  label: "Pesawat Hari Ini",
+                  value: "38,450",
+                  icon: MapPin,
+                  color: "purple",
+                },
+                {
+                  label: "Rata - Rata Ketinggian Pesawat Radar Hari Ini",
+                  value: "38,450",
+                  unit: "ft",
+                  icon: TrendingUp,
+                  color: "purple",
+                },
+              ]
+          ).map((stat, idx) => (
             <motion.div
               key={idx}
               initial={{ opacity: 0, y: 10 }}
