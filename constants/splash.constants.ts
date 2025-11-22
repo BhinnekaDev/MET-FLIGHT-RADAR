@@ -1,60 +1,80 @@
+export interface ThemeType {
+  readonly background: string;
+  readonly orb1: string;
+  readonly orb2: string;
+  readonly text: {
+    readonly primary: string;
+    readonly secondary: string;
+    readonly accent: string;
+  };
+  readonly badge: {
+    readonly source: string;
+    readonly target: string;
+  };
+  readonly progress: {
+    readonly background: string;
+    readonly bar: string;
+  };
+  readonly dots: string;
+}
+
 export const SPLASH_VARIANTS = {
   container: {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
       },
     },
   },
   item: {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 15 },
     visible: { opacity: 1, y: 0 },
   },
 } as const;
 
 export const ANIMATION_CONFIG = {
   background: {
-    duration: 8,
+    duration: 12,
     repeat: Infinity,
     ease: "easeInOut" as const,
   },
   orb1: {
-    duration: 6,
+    duration: 8,
     repeat: Infinity,
     ease: "easeInOut" as const,
   },
   orb2: {
-    duration: 6,
+    duration: 8,
     repeat: Infinity,
     ease: "easeInOut" as const,
     delay: 0.5,
   },
   radar: {
-    duration: 4,
+    duration: 6,
     repeat: Infinity,
     ease: "linear" as const,
   },
   satellite: {
-    duration: 3,
+    duration: 4,
     repeat: Infinity,
     ease: "linear" as const,
   },
   progress: {
-    duration: 2,
+    duration: 2.5,
     ease: "easeInOut" as const,
   },
   dots: {
-    duration: 1.4,
+    duration: 1.6,
     repeat: Infinity,
   },
 } as const;
 
 export const PARTICLE_COUNT = 6;
 
-export const LIGHT_THEME = {
+export const LIGHT_THEME: ThemeType = {
   background: "bg-linear-to-br from-blue-50 via-cyan-50 to-purple-50",
   orb1: "bg-linear-to-br from-cyan-400 to-blue-500",
   orb2: "bg-linear-to-tr from-purple-400 to-pink-300",
@@ -76,7 +96,7 @@ export const LIGHT_THEME = {
   dots: "bg-linear-to-b from-cyan-500 to-purple-500",
 } as const;
 
-export const DARK_THEME = {
+export const DARK_THEME: ThemeType = {
   background: "bg-linear-to-br from-[#050810] via-[#0F1438] to-[#1a1f4d]",
   orb1: "bg-linear-to-br from-cyan-500 to-purple-600",
   orb2: "bg-linear-to-tr from-purple-600 to-cyan-500",
