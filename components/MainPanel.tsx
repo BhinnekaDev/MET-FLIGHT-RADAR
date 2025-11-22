@@ -1,42 +1,42 @@
 "use client";
 
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import StatsGrid from "@/components/main-panel/StatsGrid";
 import { MainPanelProps } from "@/types/main-panel.types";
 import MapContainer from "@/components/main-panel/MapContainer";
 
-export default function MainPanel({
-  darkMode = false,
-  mode = "monitoring",
-}: MainPanelProps) {
+function MainPanel({ darkMode = false, mode = "monitoring" }: MainPanelProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeFlights, setActiveFlights] = useState(247);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoaded(true);
+
     const interval = setInterval(() => {
       setActiveFlights((prev) => {
         const change = Math.floor(Math.random() * 5) - 2;
         return Math.max(200, Math.min(300, prev + change));
       });
-    }, 3000);
+    }, 5000);
+
     return () => clearInterval(interval);
   }, []);
 
+  const bgColor = darkMode ? "bg-[#050810]" : "bg-gray-50";
+
   return (
     <main
-      className={`flex-1 overflow-hidden transition-colors duration-300 ${
-        darkMode ? "bg-[#050810]" : "bg-gray-50"
-      }`}
+      className={`flex-1 overflow-hidden transition-colors duration-300 ${bgColor}`}
     >
       <motion.div
         key={mode}
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.98 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="h-full w-full p-3 sm:p-4 lg:p-6 flex flex-col gap-3 sm:gap-4"
       >
         <StatsGrid
@@ -51,3 +51,5 @@ export default function MainPanel({
     </main>
   );
 }
+
+export default memo(MainPanel);

@@ -1,5 +1,6 @@
 "use client";
 
+import { memo, Suspense } from "react";
 import { useApp } from "@/hooks/useApp";
 import Header from "@/components/Header";
 import Sidebar from "@/components/Sidebar";
@@ -8,7 +9,7 @@ import { AnimatePresence } from "framer-motion";
 import SplashScreen from "@/components/SplashScreen";
 import LoadingScreen from "@/components/LoadingScreen";
 
-export default function Home() {
+function Home() {
   const {
     mode,
     darkMode,
@@ -41,8 +42,13 @@ export default function Home() {
         </AnimatePresence>
 
         <Sidebar mode={mode} darkMode={darkMode} />
-        <MainPanel darkMode={darkMode} mode={mode} />
+
+        <Suspense fallback={<div>Loading...</div>}>
+          <MainPanel darkMode={darkMode} mode={mode} />
+        </Suspense>
       </div>
     </div>
   );
 }
+
+export default memo(Home);
