@@ -1,22 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
 export function useSidebar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [selectedAction, setSelectedAction] = useState<string | null>(null);
 
-  const toggleMobileMenu = () => {
-    setIsMobileOpen(!isMobileOpen);
-  };
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileOpen((prev) => !prev);
+  }, []);
 
-  const handleActionClick = (actionId: string) => {
+  const handleActionClick = useCallback((actionId: string) => {
     setSelectedAction(actionId);
-  };
+  }, []);
 
-  const closeMobileMenu = () => {
+  const closeMobileMenu = useCallback(() => {
     setIsMobileOpen(false);
-  };
+  }, []);
 
   return {
     isMobileOpen,
