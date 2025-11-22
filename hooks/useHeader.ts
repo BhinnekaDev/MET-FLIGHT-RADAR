@@ -1,10 +1,10 @@
-import { useState, useCallback } from "react";
 import { HeaderMode } from "@/types/header.types";
+import { useState, useCallback, useMemo } from "react";
 import { UseHeaderProps } from "@/interfaces/use-header-props.interface";
 
 export function useHeader({
-  initialDarkMode = false,
   externalSetDarkMode,
+  initialDarkMode = false,
   initialMode = "monitoring",
   externalHandleModeChange,
 }: UseHeaderProps) {
@@ -13,9 +13,10 @@ export function useHeader({
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleDarkMode = useCallback(() => {
-    setDarkModeState((prev) => !prev);
+    const newDarkMode = !darkMode;
+    setDarkModeState(newDarkMode);
     externalSetDarkMode?.();
-  }, [externalSetDarkMode]);
+  }, [darkMode, externalSetDarkMode]);
 
   const handleModeChange = useCallback(
     (newMode: HeaderMode) => {
@@ -30,12 +31,22 @@ export function useHeader({
     setIsMobileMenuOpen((prev) => !prev);
   }, []);
 
-  return {
-    mode,
-    darkMode,
-    handleDarkMode,
-    isMobileMenuOpen,
-    handleModeChange,
-    toggleMobileMenu,
-  };
+  return useMemo(
+    () => ({
+      mode,
+      darkMode,
+      handleDarkMode,
+      isMobileMenuOpen,
+      handleModeChange,
+      toggleMobileMenu,
+    }),
+    [
+      mode,
+      darkMode,
+      isMobileMenuOpen,
+      handleDarkMode,
+      handleModeChange,
+      toggleMobileMenu,
+    ]
+  );
 }
