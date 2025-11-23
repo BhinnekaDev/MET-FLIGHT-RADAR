@@ -80,6 +80,9 @@ Akses melalui [http://localhost:3000](http://localhost:3000).
 ```
 met-flight-radar/
 ├── app/
+│   ├── api/
+│   │   └── planes/
+│   │       └── route.ts
 │   ├── layout.tsx
 │   └──  page.tsx
 ├── components/
@@ -95,6 +98,10 @@ met-flight-radar/
 │   │   ├── ModeBadge.tsx
 │   │   ├── StatCard.tsx
 │   │   └── StatsGrid.tsx
+│   ├── main-panel/
+│   │   ├── LoadingIndicator.tsx
+│   │   ├── MapTileLayer.tsx
+│   │   └── PlanePopup.tsx
 │   ├── sidebar/
 │   │   ├── AnimatedBackground.tsx
 │   │   ├── LegendSection.tsx
@@ -120,14 +127,17 @@ met-flight-radar/
 │   └── SplashScreen.tsx
 ├── constants/
 │   ├── header.constants.ts
+│   ├── map.constants.ts
 │   ├── sidebar.constants.ts
-│   └── splash.constants.ts
+│   ├── splash.constants.ts
+│   └── svg.constants.ts
 ├── hooks/
 │   ├── useApp.ts
 │   ├── useAppInitialization.ts
 │   ├── useAppMode.ts
 │   ├── useHeader.ts
 │   ├── useLocalStorage.ts
+│   ├── usePlanes.ts
 │   ├── useSidebar.ts
 │   ├── useSplashScreen.ts
 │   └── useTheme.ts
@@ -136,9 +146,11 @@ met-flight-radar/
 │   ├── dimensions.interface.ts
 │   ├── floating-particles-props.interface.ts
 │   ├── legend-item-props.interface.ts
+│   ├── loading-indicator-props.interface.ts
 │   ├── loading-screen-props-props.interface.ts
 │   ├── logo-props.interface.ts
 │   ├── map-props.interface.ts
+│   ├── map-tile-layer-props.interface.ts
 │   ├── menuItem-props.interface.ts
 │   ├── mobile-info-banner-props.interface.ts
 │   ├── mobile-menu-button-props.interface.ts
@@ -146,6 +158,8 @@ met-flight-radar/
 │   ├── mode-badge-props.interface.ts
 │   ├── mode-switch-props.ts
 │   ├── particle.interface.ts
+│   ├── plane-popup-props.interface.ts
+│   ├── plane-props.interface.ts
 │   ├── quick-action-button-props.interface.ts
 │   ├── sidebar-overlay-props.interface.ts
 │   ├── stat-card-props.interface.ts
@@ -161,6 +175,8 @@ met-flight-radar/
 │   ├── main-panel.types.ts
 │   ├── sidebar.types.ts
 │   └── splash.types.ts
+├── utils/
+│   └── plane-icon.utils.ts
 ├── package.json
 └── README.md
 ```
