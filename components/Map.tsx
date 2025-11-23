@@ -2,28 +2,40 @@
 
 import "leaflet/dist/leaflet.css";
 import { LatLngExpression } from "leaflet";
-import { MapContainer, TileLayer } from "react-leaflet";
+import PlanePopup from "@/components/map/PlanePopup";
+import MapTileLayer from "@/components/map/MapTileLayer";
+import { MAP_CONSTANTS } from "@/constants/map.constants";
+import { MapContainer, Marker, Popup } from "react-leaflet";
 import { MapProps } from "@/interfaces/map-props.interface";
+import { createPlaneSVGIcon } from "@/utils/plane-icon.utils";
+import LoadingIndicator from "@/components/map/LoadingIndicator";
 
-const position: LatLngExpression = [-3.8, 102.265];
-
-export default function Map({ darkMode }: MapProps) {
-  const tileUrl = darkMode
-    ? "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-    : "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-
-  const attribution = darkMode
-    ? '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
-    : '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+export default function Map({
+  planes = [],
+  darkMode,
+  loading = false,
+}: MapProps) {
+  const mapCenter: LatLngExpression = planes.length
+    ? ([planes[0].latitude, planes[0].longitude] as LatLngExpression)
+    : MAP_CONSTANTS.DEFAULT_CENTER;
 
   return (
-    <MapContainer
-      center={position}
-      zoomControl={false}
-      zoom={7}
-      className="h-full w-full"
-    >
-      <TileLayer url={tileUrl} attribution={attribution} />
+    <MapContainer center={mapCenter} zoom={5} className="h-full w-full">
+      <MapTileLayer darkMode={darkMode} />
+
+      {planes.map((plane) => (
+        <Marker
+          key={plane.icao24}
+          position={[plane.latitude, plane.longitude] as LatLngExpression}
+          icon={createPlaneSVGIcon(plane.true_track)}
+        >
+          <Popup>
+            <PlanePopup plane={plane} />
+          </Popup>
+        </Marker>
+      ))}
+
+      <LoadingIndicator loading={loading} />
     </MapContainer>
   );
 }

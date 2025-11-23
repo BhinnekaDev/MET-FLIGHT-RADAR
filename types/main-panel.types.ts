@@ -1,20 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface MainPanelProps {
-  darkMode?: boolean;
   mode?: "monitoring" | "analysis";
+  planes: any[];
+  loading?: boolean;
+  darkMode?: boolean;
 }
 
 export interface StatsGridProps {
   darkMode: boolean;
   mode: "monitoring" | "analysis";
   isLoaded: boolean;
-  activeFlights: number;
+  activeFlights: any[];
 }
 
 export interface MapContainerProps {
+  planes: any[];
+  loading?: boolean;
   darkMode: boolean;
-  mode: "monitoring" | "analysis";
   isLoaded: boolean;
+  mode: "monitoring" | "analysis";
 }
 
 export interface StatData {

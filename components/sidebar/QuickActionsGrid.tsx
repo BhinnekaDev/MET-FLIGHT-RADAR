@@ -73,7 +73,7 @@ function QuickActionButton({
       whileHover={{ scale: 1.03, y: -1 }}
       whileTap={{ scale: 0.97 }}
       onClick={() => onActionClick(action.id)}
-      className={buttonClass}
+      className={`${buttonClass} cursor-pointer`}
     >
       <ActionIcon action={action} darkMode={darkMode} />
       <span

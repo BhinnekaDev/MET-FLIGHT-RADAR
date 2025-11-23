@@ -7,9 +7,9 @@ import {
   ANALYSIS_MENU_ITEMS,
   MONITORING_MENU_ITEMS,
 } from "@/constants/sidebar.constants";
+import { memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useSidebar } from "@/hooks/useSidebar";
-import { memo, useMemo, useCallback } from "react";
 import { SidebarProps } from "@/types/sidebar.types";
 import SidebarHeader from "@/components/sidebar/SidebarHeader";
 import MenuItemsList from "@/components/sidebar/MenuItemsList";
@@ -41,15 +41,12 @@ function Sidebar({
     [darkMode, mode]
   );
 
-  const handleActionClickWithCallback = useCallback(
-    (actionId: string) => {
-      handleActionClick(actionId);
-      if (actionId === "pesawat" && onPlaneClick) {
-        onPlaneClick();
-      }
-    },
-    [handleActionClick, onPlaneClick]
-  );
+  const handleActionClickWithCallback = (actionId: string) => {
+    handleActionClick(actionId);
+    if (actionId === "pesawat" && onPlaneClick) {
+      onPlaneClick();
+    }
+  };
 
   const sidebarClasses = `fixed lg:relative h-full z-40 transition-transform duration-300 ${
     isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
@@ -125,7 +122,7 @@ function MobileFooter({ darkMode }: { darkMode: boolean }) {
   return (
     <div className="lg:hidden p-4 border-t">
       <div className={`text-center text-xs ${styles.text.tertiary}`}>
-        Tap anywhere outside to close
+        Klik di luar sidebar untuk menutup
       </div>
     </div>
   );

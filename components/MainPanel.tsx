@@ -5,24 +5,21 @@ import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import StatsGrid from "@/components/main-panel/StatsGrid";
 import { MainPanelProps } from "@/types/main-panel.types";
+import { Plane } from "@/interfaces/plane-props.interface";
 import MapContainer from "@/components/main-panel/MapContainer";
 
-function MainPanel({ darkMode = false, mode = "monitoring" }: MainPanelProps) {
+function MainPanel({
+  loading,
+  planes = [],
+  darkMode = false,
+  mode = "monitoring",
+}: MainPanelProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [activeFlights, setActiveFlights] = useState(247);
+  const activeFlights: Plane[] = planes.filter((p) => !p.on_ground);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoaded(true);
-
-    const interval = setInterval(() => {
-      setActiveFlights((prev) => {
-        const change = Math.floor(Math.random() * 5) - 2;
-        return Math.max(200, Math.min(300, prev + change));
-      });
-    }, 5000);
-
-    return () => clearInterval(interval);
   }, []);
 
   const bgColor = darkMode ? "bg-[#050810]" : "bg-gray-50";
@@ -46,7 +43,13 @@ function MainPanel({ darkMode = false, mode = "monitoring" }: MainPanelProps) {
           activeFlights={activeFlights}
         />
 
-        <MapContainer darkMode={darkMode} mode={mode} isLoaded={isLoaded} />
+        <MapContainer
+          mode={mode}
+          planes={planes}
+          loading={loading}
+          darkMode={darkMode}
+          isLoaded={isLoaded}
+        />
       </motion.div>
     </main>
   );

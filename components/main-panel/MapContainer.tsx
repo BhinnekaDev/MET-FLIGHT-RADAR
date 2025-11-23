@@ -9,7 +9,7 @@ import AnimatedBackground from "@/components/main-panel/AnimatedBackground";
 
 const Map = lazy(() => import("@/components/Map"));
 
-function MapContainer({ mode, darkMode, isLoaded }: MapContainerProps) {
+function MapContainer({ mode, darkMode, isLoaded, planes }: MapContainerProps) {
   const currentMode = useMemo(() => {
     const modeStyles = {
       monitoring: {
@@ -61,7 +61,7 @@ function MapContainer({ mode, darkMode, isLoaded }: MapContainerProps) {
             </div>
           }
         >
-          <Map darkMode={darkMode} />
+          <Map darkMode={darkMode} planes={planes} />
         </Suspense>
       </div>
 

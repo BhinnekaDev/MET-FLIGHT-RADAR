@@ -13,19 +13,28 @@ function StatsGrid({
   activeFlights,
 }: StatsGridProps) {
   const stats = useMemo(() => {
+    const averageAltitude =
+      activeFlights.length > 0
+        ? (
+            activeFlights.reduce((sum, p) => sum + (p.baro_altitude || 0), 0) /
+            activeFlights.length /
+            1000
+          ).toFixed(2)
+        : "0";
+
     const monitoringStats = [
       {
         label: "Pesawat Aktif",
-        value: activeFlights.toString(),
+        value: activeFlights.length.toString(),
         icon: MapPin,
         color: "cyan" as const,
       },
       {
         label: "Rata - Rata Ketinggian Pesawat",
-        value: "38,450",
-        unit: "ft",
+        value: averageAltitude,
+        unit: "Km",
         icon: TrendingUp,
-        color: "purple" as const,
+        color: "cyan" as const,
       },
     ];
 
@@ -39,7 +48,7 @@ function StatsGrid({
       {
         label: "Rata - Rata Ketinggian Pesawat Radar Hari Ini",
         value: "38,450",
-        unit: "ft",
+        unit: "Km",
         icon: TrendingUp,
         color: "purple" as const,
       },
