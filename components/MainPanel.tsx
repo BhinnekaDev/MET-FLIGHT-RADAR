@@ -9,10 +9,10 @@ import { Plane } from "@/interfaces/plane-props.interface";
 import MapContainer from "@/components/main-panel/MapContainer";
 
 function MainPanel({
+  mode = "monitoring",
   loading,
   planes = [],
   darkMode = false,
-  mode = "monitoring",
 }: MainPanelProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const activeFlights: Plane[] = planes.filter((p) => !p.on_ground);
