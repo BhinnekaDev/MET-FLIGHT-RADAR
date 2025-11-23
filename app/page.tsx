@@ -46,7 +46,12 @@ export default function Home() {
         <Sidebar mode={mode} darkMode={darkMode} onPlaneClick={fetchPlanes} />
 
         <Suspense fallback={<div>Memuat...</div>}>
-          <MainPanel planes={planes} loading={loading} darkMode={darkMode} />
+          <MainPanel
+            mode={mode}
+            planes={planes}
+            loading={loading}
+            darkMode={darkMode}
+          />
         </Suspense>
 
         {loading && (

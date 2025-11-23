@@ -1,10 +1,5 @@
 import { NextResponse } from "next/server";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let cache: any[] | null = null;
-let lastFetchTime = 0;
-const CACHE_DURATION = 30 * 1000;
-
 const INDONESIA_BOUNDS = {
   latMin: -10.5,
   latMax: 5.5,
@@ -14,18 +9,7 @@ const INDONESIA_BOUNDS = {
 
 export async function GET() {
   try {
-    const now = Date.now();
-    if (cache && now - lastFetchTime < CACHE_DURATION) {
-      return NextResponse.json({
-        status: "sukses",
-        sumber: "cache",
-        jumlah: cache.length,
-        data: cache,
-      });
-    }
-
     const url = `https://opensky-network.org/api/states/all?lamin=${INDONESIA_BOUNDS.latMin}&lomin=${INDONESIA_BOUNDS.lonMin}&lamax=${INDONESIA_BOUNDS.latMax}&lomax=${INDONESIA_BOUNDS.lonMax}`;
-
     const res = await fetch(url);
     if (!res.ok) throw new Error(`Gagal fetch OpenSky (status ${res.status})`);
 
@@ -52,9 +36,6 @@ export async function GET() {
         true_track: p[10],
         on_ground: p[8],
       }));
-
-    cache = hasil;
-    lastFetchTime = now;
 
     return NextResponse.json({
       status: "sukses",
