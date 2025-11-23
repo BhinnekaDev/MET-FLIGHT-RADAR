@@ -55,22 +55,11 @@ export default function Home() {
         </Suspense>
 
         {loading && (
-          <div className="absolute inset-0 flex flex-col gap-4 p-4 bg-black/20">
-            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-2 gap-3">
-              {[0, 1].map((i) => (
-                <div
-                  key={i}
-                  className={`h-24 sm:h-28 rounded-xl animate-pulse shadow-md ${
-                    darkMode ? "bg-gray-700" : "bg-gray-200"
-                  }`}
-                />
-              ))}
+          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/70">
+            <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mb-4" />
+            <div className="text-white text-lg sm:text-xl font-semibold">
+              Memuat pesawat...
             </div>
-            <div
-              className={`flex-1 w-full rounded-lg animate-pulse shadow-inner ${
-                darkMode ? "bg-gray-700" : "bg-gray-200"
-              }`}
-            />
           </div>
         )}
       </div>
